@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Test Automation Suite]">
+  <listeners>
+    <listener class-name="com.qa.util.ReportListener"/>
+    <listener class-name="com.qa.util.RetryTransformer"/>
+  </listeners>
+  <test thread-count="5" name="App Test(failed)">
+    <classes>
+      <class name="com.qa.testcases.LoginPageTest">
+        <methods>
+          <include name="setUp"/>
+          <include name="loginPageTitleTest"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- com.qa.testcases.LoginPageTest -->
+    </classes>
+  </test> <!-- App Test(failed) -->
+</suite> <!-- Failed suite [Test Automation Suite] -->

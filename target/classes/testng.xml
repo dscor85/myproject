@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Test Automation Suite">
+	
+	<listeners>
+	<listener class-name="com.qa.util.ReportListener"/>
+	<listener class-name="com.qa.util.RetryTransformer"/>
+	</listeners>
+	
+	<test name="App Test">
+		<classes>
+			<class name="com.qa.testcases.LoginPageTest" />
+			<class name="com.qa.testcases.ProductCataloguePageTest" />
+		</classes>
+	</test> <!--
+	Test -->
+</suite> <!--
+Suite -->
