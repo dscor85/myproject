@@ -33,7 +33,10 @@ jobs:
 
     # ✅ Run Maven with safer TLS handling
     - name: Build and Test with Maven
-      run: mvn -Dmaven.wagon.http.pool=false -B clean test --file pom.xml
+      run: mvn -B clean test --file pom.xml
+      env:
+        MAVEN_OPTS: "-Dmaven.wagon.http.pool=false"
+
 
     - name: Upload JUnit Test Results
       if: always()
