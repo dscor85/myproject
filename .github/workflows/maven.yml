@@ -1,0 +1,52 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    # Checkout source code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Set up JDK 21 (same as your Azure DevOps config)
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+
+    # Run Maven clean test (JUnit/TestNG execution)
+    - name: Build and Test with Maven
+      run: mvn -B clean test --file pom.xml
+
+    # Upload surefire JUnit reports (JUnit XMLs) to GitHub Actions
+    - name: Upload JUnit Test Results
+      if: always() # always upload, even if tests fail
+      uses: actions/upload-artifact@v4
+      with:
+        name: junit-test-results
+        path: target/surefire-reports/TEST-*.xml
+
+    # Upload Extent Reports (like ADO artifacts publishing)
+    - name: Upload Extent Reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: extent-reports
+        path: TestResults
+
+    # Upload TestNG reports
+    - name: Upload TestNG Reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: testng-reports
+        path: test-output
