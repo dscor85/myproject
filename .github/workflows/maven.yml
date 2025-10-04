@@ -11,11 +11,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    # Checkout source code
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Set up JDK 21 (same as your Azure DevOps config)
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -23,26 +21,27 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # 🔍 Debug: Check installed Chrome & ChromeDriver versions
+    # ✅ Install Chrome
+    - name: Install Chrome
+      run: choco install googlechrome --no-progress --yes
+
+    # 🔍 Debug Chrome + ChromeDriver
     - name: Check Chrome Version
       run: |
-        reg query "HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon" /v version || echo "Chrome not found in registry"
         if (Get-Command chrome.exe -ErrorAction SilentlyContinue) { chrome.exe --version } else { echo "Chrome.exe not in PATH" }
         if (Get-Command chromedriver.exe -ErrorAction SilentlyContinue) { chromedriver.exe --version } else { echo "Chromedriver.exe not in PATH" }
 
-    # Run Maven clean test (JUnit/TestNG execution)
+    # ✅ Run Maven with safer TLS handling
     - name: Build and Test with Maven
-      run: mvn -B clean test --file pom.xml
+      run: mvn -B -Dmaven.wagon.http.pool=false clean test --file pom.xml
 
-    # Upload surefire JUnit reports (JUnit XMLs) to GitHub Actions
     - name: Upload JUnit Test Results
-      if: always() # always upload, even if tests fail
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: junit-test-results
         path: target/surefire-reports/TEST-*.xml
 
-    # Upload Extent Reports (like ADO artifacts publishing)
     - name: Upload Extent Reports
       if: always()
       uses: actions/upload-artifact@v4
@@ -50,7 +49,6 @@ jobs:
         name: extent-reports
         path: TestResults
 
-    # Upload TestNG reports
     - name: Upload TestNG Reports
       if: always()
       uses: actions/upload-artifact@v4
