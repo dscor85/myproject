@@ -23,6 +23,13 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    # 🔍 Debug: Check installed Chrome & ChromeDriver versions
+    - name: Check Chrome Version
+      run: |
+        reg query "HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon" /v version || echo "Chrome not found in registry"
+        if (Get-Command chrome.exe -ErrorAction SilentlyContinue) { chrome.exe --version } else { echo "Chrome.exe not in PATH" }
+        if (Get-Command chromedriver.exe -ErrorAction SilentlyContinue) { chromedriver.exe --version } else { echo "Chromedriver.exe not in PATH" }
+
     # Run Maven clean test (JUnit/TestNG execution)
     - name: Build and Test with Maven
       run: mvn -B clean test --file pom.xml
