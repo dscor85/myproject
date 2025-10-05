@@ -3,8 +3,6 @@ name: CICD
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -50,7 +48,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: extent-reports
-        path: TestResults
+        path: extentReports
 
     - name: Upload TestNG Reports
       if: always()
