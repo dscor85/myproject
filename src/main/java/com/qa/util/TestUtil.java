@@ -47,12 +47,21 @@ public class TestUtil extends TestBase {
 	}
 	
 	
-	public void takeScreenshotOnFailure(String testMethodName) throws IOException {
+//	public void takeScreenshotOnFailure(String testMethodName) throws IOException {
+//		TakesScreenshot ts = (TakesScreenshot) driver;
+//		File fileSource = ts.getScreenshotAs(OutputType.FILE);
+//		File fileDestination = new File(System.getProperty("user.dir") + "//screenshots//" + testMethodName + ".png");
+//		FileUtils.copyFile(fileSource, fileDestination);
+//		
+//	}
+	
+	public static String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
+
 		TakesScreenshot ts = (TakesScreenshot) driver;
-		File fileSource = ts.getScreenshotAs(OutputType.FILE);
-		File fileDestination = new File(System.getProperty("user.dir") + "//screenshots//" + testMethodName + ".png");
-		FileUtils.copyFile(fileSource, fileDestination);
-		
+		File source = ts.getScreenshotAs(OutputType.FILE);
+		File destination = new File(System.getProperty("user.dir") + "//reports" + testCaseName + ".png");
+		FileUtils.copyFile(source, destination);
+		return System.getProperty("user.dir") + "//extentReports" + testCaseName + ".png";
 	}
 	
 	

@@ -10,7 +10,7 @@ import com.qa.base.TestBase;
 import com.qa.pages.LoginPage;
 import com.qa.pages.ProductCatalogue;
 
-@Listeners(com.qa.util.ReportListener.class)
+//@Listeners(com.qa.util.Listeners.class)
 
 //@Test(retryAnalyzer = com.qa.util.RetryAnalyzer.class)
 public class LoginPageTest extends TestBase {
